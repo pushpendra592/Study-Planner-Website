@@ -1,61 +1,102 @@
-# Smart Study Planner
+# 📚 Smart Study Planner
 
-A web-based study planner to organize subjects, schedules, tasks, and track progress.
+A lightweight, web-based study planner that helps students organize subjects, schedules, and tasks while tracking
+progress. Built with Vanilla JavaScript and uses LocalStorage for data persistence — no backend required.
 
-## Features
+---
 
-- **Dashboard**: Overview of subjects, tasks, and today's schedule
-- **Subjects**: Add, edit, delete subjects with priority and color
-- **Schedule**: Weekly timetable with conflict detection
-- **Tasks**: Track assignments, exams with deadlines
-- **Progress**: View completion rates and activity log
-- **Settings**: Theme toggle, data export, and reset
+## ✨ Features
 
-## Tech Stack
+### 📊 Dashboard
+- Overview of subjects, pending tasks, and today’s schedule
+- Real-time updates as data changes
 
-- HTML5, CSS3, Vanilla JavaScript
-- LocalStorage for data persistence
+### 📘 Subjects
+- Add, edit, and delete subjects
+- Assign priority levels and custom colors
 
-## File Structure
+### 🗓 Schedule Planner
+- Weekly timetable view
+- Conflict detection for overlapping sessions
+- Easy schedule modification
+
+### ✅ Tasks
+- Track assignments, exams, and deadlines
+- Task filtering for better organization
+
+### 📈 Progress Tracking
+- Completion rate analytics
+- Activity log to monitor study habits
+
+### ⚙️ Settings
+- Light/Dark theme toggle
+- Data export for backup
+- Reset stored data
+
+---
+
+## 🛠 Tech Stack
+
+- HTML5
+- CSS3
+- Vanilla JavaScript
+- LocalStorage
+
+---
+
+## 📂 Project Structure
+
 smart-study-planner/
 ├── index.html
 ├── style.css
 ├── js/
-│   ├── storage.js      (LocalStorage functions)
-│   ├── navigation.js   (Navigation & theme)
-│   ├── subjects.js     (Subject management)
-│   ├── schedule.js     (Schedule planner)
-│   ├── tasks.js        (Task manager)
-│   ├── dashboard.js    (Dashboard updates)
-│   ├── progress.js     (Progress analytics)
-│   ├── settings.js     (Settings & export)
-│   ├── modal.js        (Modal handling)
-│   ├── notifications.js (Notifications & reminders)
-│   └── app.js          (Main initialization)
+│ ├── storage.js # LocalStorage operations & initialization
+│ ├── notifications.js # Notifications & reminders
+│ ├── navigation.js # Navigation & theme toggle
+│ ├── modal.js # Modal handling
+│ ├── subjects.js # Subject management (CRUD)
+│ ├── schedule.js # Schedule planner & conflict detection
+│ ├── tasks.js # Task management & filters
+│ ├── dashboard.js # Dashboard updates
+│ ├── progress.js # Progress analytics
+│ ├── settings.js # Settings, export & reset
+│ └── app.js # Main application initialization
 └── README.md
+---
 
+## 🚀 Getting Started
 
-## Usage
+1. Download or clone the repository
+2. Open `index.html` in any modern browser
+3. Add subjects first, then create schedules and tasks
 
-Open `index.html` in browser. Add subjects first, then create schedules and tasks.
+---
 
-## Author
+## 🧠 Usage Flow
+
+1. Create subjects
+2. Build weekly schedules
+3. Add assignments and exams
+4. Track progress from the dashboard
+
+---
+
+## 🔒 Data Storage
+
+- Data is stored locally using LocalStorage
+- Clearing browser data will reset all progress unless exported
+
+---
+
+## 👤 Author
 
 Created February 2025
 
+---
 
-Summary
-The JavaScript is now split into 11 separate files:
+## 📌 Future Enhancements
 
-File	Purpose
-storage.js	LocalStorage operations, data initialization
-notifications.js	Popup notifications, reminders
-navigation.js	Section switching, theme toggle
-modal.js	Edit modal handling
-subjects.js	Subject CRUD operations
-schedule.js	Schedule management, conflict check
-tasks.js	Task management, filters
-dashboard.js	Dashboard statistics
-progress.js	Progress analytics
-settings.js	Settings, export, reset
-app.js	Main initialization
+- Cloud synchronization
+- Calendar export (ICS)
+- Advanced reminders
+- Mobile-first UI improvements
