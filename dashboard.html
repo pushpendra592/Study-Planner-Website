@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Dashboard — overview of your study progress, upcoming deadlines, and today's schedule.">
+    <title>Dashboard — Study Planner</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">
+            <div class="logo-icon"><i class="fas fa-book-open-reader"></i></div>
+            StudyPlanner
+        </a>
+        <div class="navbar-nav">
+            <a href="index.html"><i class="fas fa-house"></i> Home</a>
+            <a href="dashboard.html"><i class="fas fa-table-cells-large"></i> Dashboard</a>
+            <a href="subjects.html"><i class="fas fa-layer-group"></i> Subjects</a>
+            <a href="schedule.html"><i class="fas fa-calendar-days"></i> Schedule</a>
+            <a href="tasks.html"><i class="fas fa-list-check"></i> Tasks</a>
+            <a href="analytics.html"><i class="fas fa-chart-line"></i> Analytics</a>
+            <a href="settings.html"><i class="fas fa-gear"></i> Settings</a>
+        </div>
+        <button class="hamburger" aria-label="Toggle menu">
+            <span></span>
+        </button>
+    </nav>
+
+    <main class="main-content">
+        <div class="page-header">
+            <h1 id="dashGreeting">Good morning 👋</h1>
+            <p id="dashDate"></p>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid mb-lg" id="dashStats"></div>
+
+        <!-- Two-column layout -->
+        <div class="grid-2 mb-lg">
+            <!-- Today's Schedule -->
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-calendar-day" style="color:var(--accent);margin-right:8px"></i>Today's Schedule
+                    </h3>
+                    <a href="schedule.html" class="btn btn-ghost btn-sm">View all</a>
+                </div>
+                <div id="dashSchedule"></div>
+            </div>
+
+            <!-- Upcoming Deadlines -->
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-clock" style="color:var(--warning);margin-right:8px"></i>Upcoming Deadlines
+                    </h3>
+                    <a href="tasks.html" class="btn btn-ghost btn-sm">View all</a>
+                </div>
+                <div id="dashDeadlines"></div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="section">
+            <h3 style="margin-bottom:1rem">Quick Actions</h3>
+            <div class="quick-actions">
+                <a href="subjects.html" class="quick-action"><i class="fas fa-plus"></i> Add Subject</a>
+                <a href="schedule.html" class="quick-action"><i class="fas fa-square-plus"></i> New Session</a>
+                <a href="tasks.html" class="quick-action"><i class="fas fa-rectangle-list"></i> Create Task</a>
+                <a href="analytics.html" class="quick-action"><i class="fas fa-chart-bar"></i> View Analytics</a>
+            </div>
+        </div>
+
+        <!-- Pomodoro -->
+        <div class="section">
+            <div class="pomodoro-widget" style="max-width:380px">
+                <div class="timer-label" id="timerLabel">Focus Session</div>
+                <div class="timer-display" id="timerDisplay">25:00</div>
+                <div class="timer-controls">
+                    <button class="btn btn-primary btn-sm" id="timerStart"><i class="fas fa-play"></i> Start</button>
+                    <button class="btn btn-secondary btn-sm" id="timerPause"><i class="fas fa-pause"></i> Pause</button>
+                    <button class="btn btn-ghost btn-sm" id="timerReset"><i class="fas fa-redo"></i> Reset</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="js/storage.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Greeting
+            document.getElementById('dashGreeting').textContent = getGreeting() + ' 👋';
+            document.getElementById('dashDate').textContent = new Date().toLocaleDateString('en-US', {
+                weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
+            });
+
+            // Stats
+            renderDashStats();
+
+            // Today's schedule
+            renderDashSchedule();
+
+            // Upcoming deadlines
+            renderDashDeadlines();
+
+            // Pomodoro
+            Pomodoro.init(document.getElementById('timerDisplay'), document.getElementById('timerLabel'));
+            document.getElementById('timerStart').addEventListener('click', () => Pomodoro.start());
+            document.getElementById('timerPause').addEventListener('click', () => Pomodoro.pause());
+            document.getElementById('timerReset').addEventListener('click', () => Pomodoro.reset());
+        });
+
+        function renderDashStats() {
+            const subjects = Storage.getSubjects();
+            const tasks = Storage.getTasks();
+            const schedules = Storage.getSchedules();
+            const today = new Date().getDay();
+            const todaySchedules = schedules.filter(s => s.day === today);
+            const pendingTasks = tasks.filter(t => !t.completed).length;
+            const completedTasks = tasks.filter(t => t.completed).length;
+            const progress = tasks.length > 0 ? Math.round((completedTasks / tasks.length) * 100) : 0;
+
+            document.getElementById('dashStats').innerHTML = `
+        <div class="stat-card">
+          <div class="stat-icon purple"><i class="fas fa-layer-group"></i></div>
+          <div class="stat-info"><h4>Subjects</h4><div class="stat-value">${subjects.length}</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon yellow"><i class="fas fa-hourglass-half"></i></div>
+          <div class="stat-info"><h4>Pending Tasks</h4><div class="stat-value">${pendingTasks}</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green"><i class="fas fa-calendar-day"></i></div>
+          <div class="stat-info"><h4>Today's Sessions</h4><div class="stat-value">${todaySchedules.length}</div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon blue"><i class="fas fa-chart-line"></i></div>
+          <div class="stat-info"><h4>Weekly Progress</h4><div class="stat-value">${progress}%</div></div>
+        </div>`;
+        }
+
+        function renderDashSchedule() {
+            const container = document.getElementById('dashSchedule');
+            const today = new Date().getDay();
+            const schedules = Storage.getSchedules()
+                .filter(s => s.day === today)
+                .sort((a, b) => Storage.timeToMinutes(a.startTime) - Storage.timeToMinutes(b.startTime));
+
+            if (schedules.length === 0) {
+                container.innerHTML = '<div class="empty-state" style="padding:1.5rem 0"><div class="empty-state-icon" style="font-size:2rem">📅</div><p style="font-size:0.85rem">No sessions scheduled for today.</p></div>';
+                return;
+            }
+
+            container.innerHTML = schedules.slice(0, 5).map(s => {
+                const subject = Storage.getSubjectById(s.subjectId);
+                const color = subject ? subject.color : '#8B5CF6';
+                return `
+          <div class="timeline-block" style="border-left-color:${color};background:${color}15;margin-bottom:6px">
+            <strong style="font-size:0.85rem">${subject ? escapeHtml(subject.name) : 'Unknown'}</strong>
+            <small style="display:block;color:var(--text-muted)">${Storage.formatTime12(s.startTime)} — ${Storage.formatTime12(s.endTime)}</small>
+          </div>`;
+            }).join('');
+        }
+
+        function renderDashDeadlines() {
+            const container = document.getElementById('dashDeadlines');
+            const tasks = Storage.getTasks()
+                .filter(t => !t.completed)
+                .sort((a, b) => new Date(a.deadline) - new Date(b.deadline))
+                .slice(0, 5);
+
+            if (tasks.length === 0) {
+                container.innerHTML = '<div class="empty-state" style="padding:1.5rem 0"><div class="empty-state-icon" style="font-size:2rem">✅</div><p style="font-size:0.85rem">No upcoming deadlines. You\'re all caught up!</p></div>';
+                return;
+            }
+
+            container.innerHTML = tasks.map(t => {
+                const dl = Storage.getRelativeDeadline(t.deadline);
+                const subject = t.subjectId ? Storage.getSubjectById(t.subjectId) : null;
+                return `
+          <div class="deadline-item">
+            <div class="priority-dot ${t.priority || 'medium'}"></div>
+            <div class="deadline-info">
+              <h4>${escapeHtml(t.title)}</h4>
+              <small>${subject ? escapeHtml(subject.name) + ' · ' : ''}${formatDateTime(t.deadline)}</small>
+            </div>
+            <span class="deadline-countdown badge ${dl.class}">${dl.text}</span>
+          </div>`;
+            }).join('');
+        }
+    </script>
+</body>
+
+</html>

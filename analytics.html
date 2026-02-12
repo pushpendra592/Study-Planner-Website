@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Analytics — visualize study time, task completion, and progress with interactive charts.">
+    <title>Analytics — Study Planner</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">
+            <div class="logo-icon"><i class="fas fa-book-open-reader"></i></div>
+            StudyPlanner
+        </a>
+        <div class="navbar-nav">
+            <a href="index.html"><i class="fas fa-house"></i> Home</a>
+            <a href="dashboard.html"><i class="fas fa-table-cells-large"></i> Dashboard</a>
+            <a href="subjects.html"><i class="fas fa-layer-group"></i> Subjects</a>
+            <a href="schedule.html"><i class="fas fa-calendar-days"></i> Schedule</a>
+            <a href="tasks.html"><i class="fas fa-list-check"></i> Tasks</a>
+            <a href="analytics.html"><i class="fas fa-chart-line"></i> Analytics</a>
+            <a href="settings.html"><i class="fas fa-gear"></i> Settings</a>
+        </div>
+        <button class="hamburger" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <main class="main-content">
+        <div class="page-header"
+            style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem">
+            <div>
+                <h1>Analytics</h1>
+                <p>See where your time goes and how you're progressing.</p>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-ghost btn-sm period-btn active" data-period="week">This Week</button>
+                <button class="btn btn-ghost btn-sm period-btn" data-period="month">This Month</button>
+                <button class="btn btn-ghost btn-sm period-btn" data-period="all">All Time</button>
+            </div>
+        </div>
+
+        <!-- Stats Summary -->
+        <div class="stats-grid mb-lg" id="statsSummary"></div>
+
+        <!-- Charts -->
+        <div class="grid-2 mb-lg">
+            <div class="chart-card">
+                <h3 style="margin-bottom:1rem;font-size:0.95rem">Study Time by Subject</h3>
+                <div class="chart-wrapper" style="height:280px">
+                    <canvas id="distributionChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-card">
+                <h3 style="margin-bottom:1rem;font-size:0.95rem">Task Completion</h3>
+                <div class="chart-wrapper" style="height:280px">
+                    <canvas id="completionChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-2 mb-lg">
+            <div class="chart-card">
+                <h3 style="margin-bottom:1rem;font-size:0.95rem">Weekly Study Hours</h3>
+                <div class="chart-wrapper" style="height:280px">
+                    <canvas id="weeklyChart"></canvas>
+                </div>
+            </div>
+            <div class="chart-card">
+                <h3 style="margin-bottom:1rem;font-size:0.95rem">Progress Over Time</h3>
+                <div class="chart-wrapper" style="height:280px">
+                    <canvas id="progressChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Insights -->
+        <div class="card">
+            <h3 style="margin-bottom:1rem"><i class="fas fa-lightbulb"
+                    style="color:var(--warning);margin-right:8px"></i>Insights &amp; Recommendations</h3>
+            <div id="insightsContainer"></div>
+        </div>
+
+        <!-- Achievements -->
+        <div class="section mt-xl">
+            <h3 style="margin-bottom:1rem"><i class="fas fa-trophy"
+                    style="color:var(--warning);margin-right:8px"></i>Achievements</h3>
+            <div class="grid-4" id="achievementsGrid"></div>
+        </div>
+    </main>
+
+    <script src="js/storage.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/analytics.js"></script>
+    <script>
+        // Render achievements
+        document.addEventListener('DOMContentLoaded', () => {
+            const tasks = Storage.getTasks();
+            const logs = Storage.getStudyLogs();
+            const subjects = Storage.getSubjects();
+            const completedTasks = tasks.filter(t => t.completed).length;
+            const totalMinutes = logs.reduce((sum, l) => sum + (l.duration || 0), 0);
+
+            const achievements = [
+                { icon: '🎯', title: 'First Step', desc: 'Add your first subject', unlocked: subjects.length >= 1 },
+                { icon: '📝', title: 'Task Master', desc: 'Complete 5 tasks', unlocked: completedTasks >= 5 },
+                { icon: '⏱️', title: 'Focused Mind', desc: 'Study for 60 minutes', unlocked: totalMinutes >= 60 },
+                { icon: '🔥', title: 'On Fire', desc: 'Study for 5 hours total', unlocked: totalMinutes >= 300 },
+                { icon: '📚', title: 'Scholar', desc: 'Add 5 subjects', unlocked: subjects.length >= 5 },
+                { icon: '💪', title: 'Unstoppable', desc: 'Complete 20 tasks', unlocked: completedTasks >= 20 },
+                { icon: '🏆', title: 'Champion', desc: 'Study 20 hours total', unlocked: totalMinutes >= 1200 },
+                { icon: '🌟', title: 'Perfectionist', desc: 'Complete all tasks', unlocked: tasks.length > 0 && completedTasks === tasks.length },
+            ];
+
+            document.getElementById('achievementsGrid').innerHTML = achievements.map(a => `
+        <div class="achievement ${a.unlocked ? '' : 'locked'}">
+          <div class="achievement-icon">${a.icon}</div>
+          <div>
+            <h4 style="font-size:0.88rem">${a.title}</h4>
+            <small>${a.desc}</small>
+          </div>
+        </div>
+      `).join('');
+        });
+    </script>
+</body>
+
+</html>

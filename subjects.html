@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Manage your subjects — add, edit, prioritize, and color-code study subjects.">
+    <title>Subjects — Study Planner</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">
+            <div class="logo-icon"><i class="fas fa-book-open-reader"></i></div>
+            StudyPlanner
+        </a>
+        <div class="navbar-nav">
+            <a href="index.html"><i class="fas fa-house"></i> Home</a>
+            <a href="dashboard.html"><i class="fas fa-table-cells-large"></i> Dashboard</a>
+            <a href="subjects.html"><i class="fas fa-layer-group"></i> Subjects</a>
+            <a href="schedule.html"><i class="fas fa-calendar-days"></i> Schedule</a>
+            <a href="tasks.html"><i class="fas fa-list-check"></i> Tasks</a>
+            <a href="analytics.html"><i class="fas fa-chart-line"></i> Analytics</a>
+            <a href="settings.html"><i class="fas fa-gear"></i> Settings</a>
+        </div>
+        <button class="hamburger" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <main class="main-content">
+        <div class="page-header">
+            <h1>Subjects</h1>
+            <p>Add and organize the subjects you're studying.</p>
+        </div>
+
+        <!-- Add / Edit Form -->
+        <div class="card mb-lg">
+            <h3 style="margin-bottom:1rem"><i class="fas fa-circle-plus"
+                    style="color:var(--accent);margin-right:8px"></i>Add a Subject</h3>
+            <form id="subjectForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="subjectName">Subject Name *</label>
+                        <input type="text" id="subjectName" class="form-control" placeholder="e.g. Linear Algebra"
+                            required>
+                        <span class="form-error">Subject name is required.</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="subjectCode">Code (optional)</label>
+                        <input type="text" id="subjectCode" class="form-control" placeholder="e.g. MATH-201">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="subjectPriority">Priority</label>
+                        <select id="subjectPriority" class="form-control">
+                            <option value="high">High</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="targetHours">Target hours / week</label>
+                        <input type="number" id="targetHours" class="form-control" min="0" max="168" step="0.5"
+                            placeholder="e.g. 8">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="subjectColor">Color</label>
+                    <div class="color-picker-wrapper">
+                        <input type="color" id="subjectColor" value="#8B5CF6">
+                        <span class="text-muted" style="font-size:0.82rem">Pick a color to identify this subject</span>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Add Subject</button>
+            </form>
+        </div>
+
+        <!-- Filters -->
+        <div class="section-header">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" id="subjectSearch" class="form-control" placeholder="Search subjects...">
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-ghost btn-sm filter-btn active" data-priority="all">All</button>
+                <button class="btn btn-ghost btn-sm filter-btn" data-priority="high">High</button>
+                <button class="btn btn-ghost btn-sm filter-btn" data-priority="medium">Medium</button>
+                <button class="btn btn-ghost btn-sm filter-btn" data-priority="low">Low</button>
+            </div>
+        </div>
+
+        <!-- Subject Cards -->
+        <div class="grid-3" id="subjectsGrid"></div>
+    </main>
+
+    <script src="js/storage.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/subjects.js"></script>
+</body>
+
+</html>

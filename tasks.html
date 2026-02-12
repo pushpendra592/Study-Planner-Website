@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Manage your tasks, assignments, and exams with deadline tracking.">
+    <title>Tasks — Study Planner</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">
+            <div class="logo-icon"><i class="fas fa-book-open-reader"></i></div>
+            StudyPlanner
+        </a>
+        <div class="navbar-nav">
+            <a href="index.html"><i class="fas fa-house"></i> Home</a>
+            <a href="dashboard.html"><i class="fas fa-table-cells-large"></i> Dashboard</a>
+            <a href="subjects.html"><i class="fas fa-layer-group"></i> Subjects</a>
+            <a href="schedule.html"><i class="fas fa-calendar-days"></i> Schedule</a>
+            <a href="tasks.html"><i class="fas fa-list-check"></i> Tasks</a>
+            <a href="analytics.html"><i class="fas fa-chart-line"></i> Analytics</a>
+            <a href="settings.html"><i class="fas fa-gear"></i> Settings</a>
+        </div>
+        <button class="hamburger" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <main class="main-content">
+        <div class="page-header"
+            style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem">
+            <div>
+                <h1>Tasks</h1>
+                <p>Keep track of assignments, exams, and deadlines.</p>
+            </div>
+            <button class="btn btn-primary" onclick="openAddTaskModal()"><i class="fas fa-plus"></i> Add Task</button>
+        </div>
+
+        <!-- Category Tabs -->
+        <div class="tabs">
+            <button class="tab task-tab active" data-category="all">All <span class="tab-count badge badge-gray"
+                    style="margin-left:6px">0</span></button>
+            <button class="tab task-tab" data-category="assignment">Assignments <span class="tab-count badge badge-gray"
+                    style="margin-left:6px">0</span></button>
+            <button class="tab task-tab" data-category="exam">Exams <span class="tab-count badge badge-gray"
+                    style="margin-left:6px">0</span></button>
+            <button class="tab task-tab" data-category="other">Other <span class="tab-count badge badge-gray"
+                    style="margin-left:6px">0</span></button>
+        </div>
+
+        <!-- Sort -->
+        <div class="section-header" style="margin-bottom:1rem">
+            <div></div>
+            <div style="display:flex;align-items:center;gap:8px">
+                <small style="color:var(--text-muted)">Sort by:</small>
+                <select id="taskSort" class="form-control" style="width:auto;padding:6px 30px 6px 10px">
+                    <option value="deadline">Deadline</option>
+                    <option value="priority">Priority</option>
+                    <option value="created">Date Added</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Task List -->
+        <div id="tasksList"></div>
+
+        <!-- Add/Edit Task Modal -->
+        <div class="modal-overlay" id="taskModal">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3>New Task</h3>
+                    <button class="modal-close" onclick="closeModal('taskModal')"><i class="fas fa-times"></i></button>
+                </div>
+                <form id="taskForm">
+                    <div class="form-group">
+                        <label for="taskTitle">Title *</label>
+                        <input type="text" id="taskTitle" class="form-control" placeholder="e.g. Chapter 5 assignment"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="taskDescription">Description</label>
+                        <textarea id="taskDescription" class="form-control" rows="3"
+                            placeholder="Any details or notes..."></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="taskSubject">Subject</label>
+                            <select id="taskSubject" class="form-control">
+                                <option value="">No subject</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="taskType">Type</label>
+                            <select id="taskType" class="form-control">
+                                <option value="assignment">Assignment</option>
+                                <option value="exam">Exam</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="taskDeadline">Deadline *</label>
+                            <input type="datetime-local" id="taskDeadline" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="taskPriority">Priority</label>
+                            <select id="taskPriority" class="form-control">
+                                <option value="high">High</option>
+                                <option value="medium" selected>Medium</option>
+                                <option value="low">Low</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="border-top:none;padding-top:0">
+                        <button type="button" class="btn btn-secondary"
+                            onclick="closeModal('taskModal')">Cancel</button>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Add Task</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </main>
+
+    <script src="js/storage.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/tasks.js"></script>
+</body>
+
+</html>

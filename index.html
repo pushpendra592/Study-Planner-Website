@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Smart Study Planner — organize your subjects, schedule study sessions, track tasks and deadlines, and analyze your progress.">
+    <title>Smart Study Planner</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <style>
+        /* Hero-specific only */
+        .hero {
+            position: relative;
+            min-height: calc(100vh - var(--nav-height) - 4rem);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 3rem 1.5rem;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 600px 400px at 30% 20%, rgba(139, 92, 246, 0.15), transparent),
+                radial-gradient(ellipse 500px 350px at 70% 80%, rgba(168, 85, 247, 0.1), transparent);
+            animation: heroGlow 8s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+        @keyframes heroGlow {
+            0% {
+                opacity: 0.7;
+                transform: scale(1);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            background: var(--accent-dim);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 50px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: var(--accent-light);
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.15;
+            max-width: 700px;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .hero h1 span {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 540px;
+            margin: 0 auto 2rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            position: relative;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+            position: relative;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.25rem;
+            margin-top: 4rem;
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .feature-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 1.75rem;
+            text-align: left;
+            transition: all var(--transition);
+        }
+
+        .feature-card:hover {
+            border-color: rgba(139, 92, 246, 0.3);
+            box-shadow: var(--shadow-glow);
+            transform: translateY(-3px);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 0.4rem;
+            font-size: 1.05rem;
+        }
+
+        .feature-card p {
+            font-size: 0.88rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a href="index.html" class="navbar-brand">
+            <div class="logo-icon"><i class="fas fa-book-open-reader"></i></div>
+            StudyPlanner
+        </a>
+        <div class="navbar-nav">
+            <a href="index.html"><i class="fas fa-house"></i> Home</a>
+            <a href="dashboard.html"><i class="fas fa-table-cells-large"></i> Dashboard</a>
+            <a href="subjects.html"><i class="fas fa-layer-group"></i> Subjects</a>
+            <a href="schedule.html"><i class="fas fa-calendar-days"></i> Schedule</a>
+            <a href="tasks.html"><i class="fas fa-list-check"></i> Tasks</a>
+            <a href="analytics.html"><i class="fas fa-chart-line"></i> Analytics</a>
+            <a href="settings.html"><i class="fas fa-gear"></i> Settings</a>
+        </div>
+        <button class="hamburger" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <main class="main-content" style="max-width:1100px">
+        <section class="hero">
+            <div class="hero-badge">
+                <i class="fas fa-wand-magic-sparkles"></i> Your study workflow, simplified
+            </div>
+            <h1>Plan smarter.<br>Study <span>better</span>.</h1>
+            <p>Organize your subjects, build weekly schedules, track every deadline, and see exactly where your time
+                goes — all in one place.</p>
+            <div class="hero-cta">
+                <a href="dashboard.html" class="btn btn-primary btn-lg"><i class="fas fa-arrow-right"></i> Get
+                    Started</a>
+                <a href="subjects.html" class="btn btn-secondary btn-lg"><i class="fas fa-layer-group"></i> Add
+                    Subjects</a>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon" style="background:var(--accent-dim);color:var(--accent)">
+                        <i class="fas fa-layer-group"></i>
+                    </div>
+                    <h3>Subject Management</h3>
+                    <p>Organize by priority and color-code your subjects. Set weekly hour targets and track how you're
+                        doing.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background:var(--success-dim);color:var(--success)">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3>Smart Scheduling</h3>
+                    <p>Build daily and weekly study plans with conflict detection. Never double-book yourself again.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background:var(--warning-dim);color:var(--warning)">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <h3>Progress Tracking</h3>
+                    <p>Visualize study time with charts. See your streaks, top subjects, and completion rates at a
+                        glance.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon" style="background:var(--danger-dim);color:var(--danger)">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3>Deadline Reminders</h3>
+                    <p>Get browser notifications before deadlines hit. Stay ahead of assignments, exams, and projects.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="js/storage.js"></script>
+    <script src="js/app.js"></script>
+</body>
+
+</html>
